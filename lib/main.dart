@@ -164,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final tabs = hn.tabs;
 
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
       appBar: AppBar(
         title: Headline(
           text: tabs[_currentIndex].name,
@@ -208,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onGenerateRoute: (settings) {
           // TODO: use PageRouteBuilders below instead of MaterialPageRoute
           //       and merely cross-fade the routes
-
+          print('======> settings name , $settings');
           if (settings.name == '/favorites') {
             return MaterialPageRoute(
               builder: (context) => FavoritesPage(),
@@ -257,9 +258,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ListTile(
                 title: Text('Favorites'),
                 onTap: () {
+                  print('button clicked');
                   // TODO Figure out why past devs wanted to do a replacement.
+                  _pageNavigatorKey.currentState?.pushNamed('/favorites');
                   Navigator.pop(context);
-                  Navigator.pushNamed(context, '/favorites');
+                  // Navigator.pushNamed(context, '/favorites');
                 },
               ),
               ListTile(

@@ -32,6 +32,9 @@ dependencies:
 
   shared_preferences: ^2.0.6
 
+dependency_overrides:
+  platform: ^3.1.0
+  
 dev_dependencies:
   build_resolvers: ^2.0.3
   build_runner: ^2.0.4

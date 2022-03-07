@@ -26,44 +26,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       appBar: AppBar(
         title: Text("FAVORITES"),
       ),
-      body: StreamBuilder(
-        stream: myDatabase.allFavorites.asStream(),
-        builder: (context, AsyncSnapshot<List<Favorite>> snapshot) {
-          return Column(
-            children: <Widget>[
-              Expanded(
-                child: ListView.builder(
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (_, index) {
-                    if (snapshot.data == null) {
-                      return Container();
-                    }
-                    Favorite article = snapshot.data![index];
-
-                    return ListTile(
-                      leading: IconButton(
-                          icon: Icon(Icons.star),
-                          onPressed: () {
-                            myDatabase.removeFavorite(article.id);
-                            // TODO(fitza): verify that this is or isn't best practice
-                            setState(() => {});
-                          }),
-                      title: Text(snapshot.data![index].title),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HackerNewsWebPage(article.url)));
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          );
-        },
-      ),
+      body: Text('Hello')
     );
   }
 }
