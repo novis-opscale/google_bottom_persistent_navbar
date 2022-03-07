@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hn_app/src/favorites.dart';
+import 'package:hn_app/src/pages/example.dart';
 import 'package:provider/provider.dart';
 import 'package:hn_app/src/widgets/hn_page.dart';
 
@@ -26,7 +27,21 @@ class _FavoritesPageState extends State<FavoritesPage> {
       appBar: AppBar(
         title: Text("FAVORITES"),
       ),
-      body: Text('Hello')
+      body: Column(
+        children: [
+          Text('Hello'),
+          TextButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    ExamplePage()
+              ),
+            ),
+            child: Text('go to examples'),
+          ),
+        ],
+      )
     );
   }
 }

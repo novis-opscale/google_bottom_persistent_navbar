@@ -7,6 +7,7 @@ import 'package:hn_app/src/article.dart';
 import 'package:hn_app/src/favorites.dart';
 import 'package:hn_app/src/notifiers/hn_api.dart';
 import 'package:hn_app/src/notifiers/prefs.dart';
+import 'package:hn_app/src/pages/example.dart';
 import 'package:hn_app/src/pages/favorites.dart';
 import 'package:hn_app/src/pages/settings.dart';
 import 'package:hn_app/src/widgets/headline.dart';
@@ -74,18 +75,36 @@ class MyApp extends StatelessWidget {
         ),
       ),
       onGenerateRoute: (settings) {
+        print('--------------> ${settings.name} ${settings.arguments}');
         switch (settings.name) {
+          case '/examples':
+            // return PageRouteBuilder(
+            //   settings: settings,
+            //     pageBuilder: (context, animation, secondaryAnimation) {
+            //   return ExamplePage();
+            // });
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (context) => ExamplePage(),
+            );
           case '/':
             return MaterialPageRoute(
+              settings: settings,
               builder: (context) => MyHomePage(),
             );
           case '/favorites':
-            return PageRouteBuilder(
-                pageBuilder: (context, animation, secondaryAnimation) {
-              return FavoritesPage();
-            });
+            // return PageRouteBuilder(
+            //   settings: settings,
+            //     pageBuilder: (context, animation, secondaryAnimation) {
+            //   return FavoritesPage();
+            // });
+            return MaterialPageRoute(
+              settings: settings,
+              builder: (context) => FavoritesPage(),
+            );
           case '/settings':
             return PageRouteBuilder(
+              settings: settings,
               pageBuilder: (context, animation, secondaryAnimation) {
                 return SettingsPage(animation);
               },
@@ -104,6 +123,8 @@ class MyApp extends StatelessWidget {
                 );
               },
             );
+            
+          
           default:
             throw UnimplementedError('no route for $settings');
         }
@@ -143,6 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final newIndex = _pageController.page!.round();
 
     if (_currentIndex != newIndex) {
+      print('=====>, $_currentIndex $newIndex');
       setState(() {
         _currentIndex = newIndex;
       });
@@ -150,6 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
       final hn = context.read<HackerNewsNotifier>();
       final tabs = hn.tabs;
       final current = tabs[_currentIndex];
+      print('@@@@@@@@@@@@@@@ ${tabs[_currentIndex]}');
 
       if (current.articles.isEmpty && !current.isLoading) {
         // New tab with no data. Let's fetch some.
@@ -209,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onGenerateRoute: (settings) {
           // TODO: use PageRouteBuilders below instead of MaterialPageRoute
           //       and merely cross-fade the routes
-          print('======> settings name , $settings');
+          print('000000000 settings name , $settings');
           if (settings.name == '/favorites') {
             return MaterialPageRoute(
               builder: (context) => FavoritesPage(),
@@ -239,11 +262,17 @@ class _MyHomePageState extends State<MyHomePage> {
             )
         ],
         onTap: (index) {
+          print('Tab clicked $index');
           _pageController.animateToPage(index,
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeOutCubic);
           setState(() {
             _currentIndex = index;
+          });
+          print('++++++++ =======> ${_pageNavigatorKey.currentState?.maybePop()}');
+          _pageNavigatorKey.currentState?.popUntil((route) {
+            print('!!!!!!!!!!!!!!!!!!!!! ${route.settings.name}');
+            return route.isFirst;
           });
         },
       ),
